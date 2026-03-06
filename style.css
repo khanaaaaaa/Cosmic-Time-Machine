@@ -9,7 +9,7 @@
 body {
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
-    height: 500vh;
+    height: 1000vh;
     background: #000;
     color: #fff;
 }
@@ -33,6 +33,10 @@ canvas {
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     max-width: 380px;
+}
+
+#timeline-info.hidden {
+    display: none;
 }
 
 #era-title {
@@ -72,6 +76,10 @@ canvas {
     font-size: 14px;
 }
 
+#audio-indicator.hidden {
+    display: none;
+}
+
 #volume-level {
     color: rgba(255, 255, 255, 0.8);
     margin-left: 8px;
@@ -88,6 +96,10 @@ canvas {
     font-size: 12px;
     font-weight: 300;
     animation: fade 3s infinite;
+}
+
+#scroll-hint.hidden {
+    display: none;
 }
 
 @keyframes fade {
@@ -130,63 +142,6 @@ canvas {
     font-weight: 300;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.5;
-}
-
-#event-markers {
-    position: fixed;
-    right: 30px;
-    top: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.event-marker {
-    width: 12px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.event-marker:hover {
-    background: rgba(255, 255, 255, 0.8);
-    transform: scae(1.5);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-}
-
-.event-marker.active {
-    background: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    animation: pulse-marker 2s infinite;
-}
-
-.event-marker::after {
-    content: attr(data-label);
-    position: absolute;
-    right: 25px;
-    top: 50%;
-    transform: translateY(-50%);
-    white-space: nowrap;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-@keyframes pulse-maker {
-    0%, 100% {
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    }
-    50% {
-        box-shadow: 0 0 30px rgba(255, 255, 255, 1);
-    }
 }
 
 #event-markers {
@@ -247,4 +202,68 @@ canvas {
     50% { 
         box-shadow: 0 0 30px rgba(255, 255, 255, 1);
     }
+}
+
+#planet-info {
+    position: fixed;
+    bottom: 120px;
+    left: 40px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 25px 30px 20px 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: none;
+    position: relative;
+}
+
+#planet-info h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+#planet-info p {
+    font-size: 13px;
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#planet-info .hint {
+    margin-top: 10px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+@keyframes bigbang-flash {
+    0% { filter: brightness(10); }
+    100% { filter: brightness(1); }
+}
+
+body.bigbang {
+    animation: bigbang-flash 0.3s ease-out;
+}
+
+#close-planet-info {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+#close-planet-info:hover {
+    color: #fff;
+    transform: scale(1.2);
 }
