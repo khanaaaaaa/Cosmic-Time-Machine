@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cosmic Time Machine</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="timeline-info">
+            <h1 id="era-title">The Big Bang</h1>
+            <p id="era-description">Universe begins at infinite density and temperature</p>
+            <p id="time-label">13.8B years ago</p>
+        </div>
+
+        <div id="event-markers">
+            <div class="event-marker" data-label="Big Bang" data-scroll="0"></div>
+            <div class="event-marker" data-label="First Stars" data-scroll="0.2"></div>
+            <div class="event-marker" data-label="Milky Way" data-scroll="0.45"></div>
+            <div class="event-marker" data-label="Solar System" data-scroll="0.5"></div>
+            <div class="event-marker" data-label="Present" data-scroll="0.6"></div>
+            <div class="event-marker" data-label="Heat Death" data-scroll="1"></div>
+        </div>
+
+        <div id="nasa-panel">
+            <p id="nasa-fact">Loading NASA data</p>
+        </div>
+
+        <div id="audio-indicator">🔊 <span id="volume-level">100%</span></div>
+
+        <div id="scroll-hint">↓ Scroll to travel through time ↓</div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
