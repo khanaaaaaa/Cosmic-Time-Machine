@@ -1,102 +1,89 @@
 # Cosmic Time Machine
 
-An immersive 3D web experience that takes you on a journey through 13.8 billion years of cosmic history, from the Big Bang to the heat death of the universe.
+Travel through 13.8 billion years of cosmic history in your browser. Watch the universe unfold from the Big Bang to its eventual heat death.
 
 ## Live Demo
 
 https://khanaaaaaa.github.io/Cosmic-Time-Machine/
 
-## Features
+## What You'll See
 
-### Interactive Timeline
-Scroll through the entire history of the universe across 20 major cosmic events:
-- **The Big Bang** - Universe begins with explosive particle animation
-- **Cosmic Inflation** - Rapid expansion of spacetime
-- **First Light** - Cosmic microwave background forms
-- **First Stars** - Population III stars ignite
-- **Galaxy Formation** - Dwarf galaxies emerge
-- **Galaxy Collisions** - Animated merging galaxies
-- **Milky Way Formation** - Our home galaxy takes shape
-- **Solar System Birth** - Sun and planets form
-- **Present Day** - Realistic solar system with orbital mechanics
-- **Future Events** - Sun's death, heat death of universe
+Just scroll. The timeline moves through 20 major cosmic events:
 
-### Realistic Solar System
-At Present Day (60% scroll), experience our solar system with:
-- **Accurate planet textures** - Procedurally generated surfaces
-  - Earth: Blue oceans with green continents and polar ice
-  - Mars: Red rocky surface with impact craters
-  - Jupiter & Saturn: Turbulent atmospheric bands
-  - Venus: Dense cloud layers
-  - Uranus & Neptune: Icy surfaces with frost patterns
-- **Orbital animation** - Planets orbit the sun at realistic relative speeds
-- **Glowing sun** - Corona effect with layered glow
-- **Interactive** - Click planets to view information
+- **Big Bang** - Explosive particle animation kicks things off
+- **Cosmic Inflation** - Space expands faster than light
+- **First Light** - The cosmic microwave background appears
+- **First Stars** - Population III stars ignite across the void
+- **Galaxy Formation** - Gravity pulls matter into dwarf galaxies
+- **Galaxy Collisions** - Watch two galaxies merge in real-time
+- **Milky Way Forms** - Our home galaxy takes shape
+- **Solar System Birth** - The sun and planets form from a dust cloud
+- **Present Day** - Our solar system as it is right now, with orbiting planets
+- **The Future** - Sun's death, Andromeda collision, and the eventual heat death
 
-### Dynamic Universe Simulation
-- **Procedural star generation** - Stars appear and disappear based on cosmic era
-- **Spiral galaxies** - Particle-based galaxies with realistic structure
-- **Galaxy collision animation** - Two galaxies merge at -10B years
-- **Smooth transitions** - Gradual changes between cosmic eras
+## Solar System (60% scroll)
 
-### Event Markers
-Click glowing markers on the right to jump instantly to:
-- Big Bang
-- First Stars
-- Milky Way Formation
-- Solar System Birth
-- Present Day
-- Heat Death
+When you hit Present Day, you'll see:
+- All 8 planets with procedurally generated textures
+- Earth with oceans and continents
+- Gas giants with turbulent atmospheric bands
+- Rocky planets covered in craters
+- Saturn's rings
+- Asteroid belt between Mars and Jupiter
+- A comet orbiting through the system
+- Everything orbits at different speeds (closer = faster)
+- Click any planet to see its info
 
-### Exoplanet Exploration
-Click on exoplanets to stand on their surface and experience:
-- **Kepler-452b** - Earth-like world with 1.6g gravity
-- **HD 189733b** - Blue gas giant with 1.15g gravity
-- **TRAPPIST-1e** - Red dwarf system with 0.93g gravity
-- Unique sky colors and star brightness for each world
+## Other Cool Stuff
 
-### Audio Experience
-Ambient sound that gradually fades as entropy increases, representing the silence of the universe's end.
+**Shooting Stars** - Random meteors streak across the sky
 
-### NASA Integration
-Real-time data from NASA's Astronomy Picture of the Day API displays alongside the timeline.
+**Nebula Clouds** - Colorful gas clouds scattered throughout space
 
-## Technologies
+**Black Hole** - Shows up at the Black Hole Era (95% scroll) with an accretion disk
 
-- **Three.js** - 3D rendering and WebGL
-- **JavaScript ES6+** - Modern async/await, arrow functions
-- **Canvas API** - Procedural texture generation
-- **NASA APOD API** - Live astronomical data
-- **Web Audio API** - Dynamic sound design
-- **CSS3** - Glassmorphism effects, animations
+**Supernova** - Exploding star at the Red Giant Sun phase
 
-## Installation
+**Exoplanets** - Click on Kepler-452b, HD 189733b, or TRAPPIST-1e to stand on their surface and see what the sky looks like from there
+
+**Event Markers** - Click the glowing dots on the right to jump to major events
+
+**Audio** - Ambient sound that fades as entropy increases
+
+**NASA Data** - Real-time astronomy facts from NASA's API
+
+## Tech Stack
+
+- Three.js for 3D rendering
+- Vanilla JavaScript
+- Canvas API for planet textures
+- NASA APOD API
+- Web Audio API
+- CSS3
+
+## Setup
 
 ```bash
 git clone https://github.com/khanaaaaaa/Cosmic-Time-Machine.git
 cd Cosmic-Time-Machine
 ```
 
-Open `index.html` in a modern web browser. No build process or dependencies required.
+Open `index.html` in your browser. That's it.
 
-## Usage
+## Controls
 
-- **Scroll** to travel through time
-- **Click event markers** to jump to specific cosmic events
-- **Click planets** to stand on their surface
-- **Click anywhere in planet mode** to return to space view
-- **Press Escape** to exit planet mode
+- **Scroll** = time travel
+- **Click markers** = jump to events
+- **Click planets** = surface view
+- **Escape** = exit planet mode
 
 ## Performance
 
-- Optimized particle counts (5000 Big Bang, 1000 stars, 1000 galaxy particles)
-- Adaptive pixel ratio (max 2x)
-- Efficient geometry reuse
-- Smooth 60fps on modern hardware
+Runs at 60fps on most modern hardware. Particle counts are optimized (5000 for Big Bang, 1000 for stars/galaxies). Pixel ratio capped at 2x.
 
-## Browser Support
+## Browser Requirements
 
-Requires WebGL support:
+Needs WebGL:
 - Chrome 90+
 - Firefox 88+
 - Safari 14+
@@ -104,32 +91,21 @@ Requires WebGL support:
 
 ## Scientific Accuracy
 
-Timeline based on current cosmological models:
+Timeline follows current cosmological models:
 - Big Bang: 13.8 billion years ago
 - First stars: 13 billion years ago
-- Milky Way formation: 6 billion years ago
+- Milky Way: 6 billion years ago
 - Solar system: 4.6 billion years ago
-- Heat death: 10^7 trillion years in the future
+- Heat death: 10^7 trillion years from now
 
 ## License
 
-MIT License
+MIT
 
 ## Credits
 
-Created as an educational visualization of cosmic history.
-
-Astronomical data sourced from:
-- NASA
-- ESA
-- Scientific literature on cosmology and exoplanets
+Built as an educational visualization. Astronomical data from NASA, ESA, and cosmology research papers.
 
 ## Contributing
 
-Feel free to open issues or submit pull requests for improvements.
-
-## Acknowledgments
-
-- Three.js community for excellent 3D library
-- NASA for public API access
-- Scientific community for cosmological research
+Issues and PRs welcome.
