@@ -2,13 +2,13 @@
 
 ## What is it?
 
-Cosmic Time Machine is an interactive 3D visualization of the entire history of the universe.
+Cosmic Time Machine is an interactive 3D visualization of the entire history of the universe. I built it using simple HTMl, CSS and JS.
 
 Live demo: https://khanaaaaaa.github.io/Cosmic-Time-Machine/
 
 ## Why I made it
 
-I've always been fascinated by cosmology and how incomprehensibly large the universe's timeline is. And I wanted to build something that actually makes you feel that scale.
+I've always been fascinated by the scale of our universe and it's origin. I made this website to make people understand how vast our universe and it's history truly are.
 
 ## How I built it
 
@@ -26,7 +26,7 @@ git clone https://github.com/khanaaaaaa/Cosmic-Time-Machine.git
 cd Cosmic-Time-Machine
 ```
 
-Open `index.html` in your browser. 
+Open `index.html` in your browser.
 
 ## What I struggled with and what I learned
 
