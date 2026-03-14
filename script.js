@@ -12,6 +12,7 @@ let bigBangActive = false;
 let explosionTime = 0;
 let collidingGalaxies = [];
 let collisionActive = false;
+let sliderDragging = false;
 
 const solarSystemData = [
     { name: "Sun", radius: 25, color: 0xfdb813, distance: 0, speed: 0, info: "G-type star" },
@@ -252,19 +253,11 @@ function createSolarSystem() {
     
     const sun = new THREE.Mesh(
         new THREE.SphereGeometry(30, 64, 64),
-        new THREE.MeshBasicMaterial({ 
-            color: 0xfdb813,
-            transparent: true,
-            opacity: 1
-        })
+        new THREE.MeshBasicMaterial({ color: 0xfdb813, transparent: true, opacity: 1 })
     );
     const sunGlow = new THREE.Mesh(
         new THREE.SphereGeometry(35, 32, 32),
-        new THREE.MeshBasicMaterial({ 
-            color: 0xff8800,
-            transparent: true,
-            opacity: 0.3
-        })
+        new THREE.MeshBasicMaterial({ color: 0xff8800, transparent: true, opacity: 0.3 })
     );
     sun.add(sunGlow);
     sun.userData = { name: "Sun", info: "G-type star", distance: 0 };
@@ -434,6 +427,7 @@ function init() {
     initAudio();
     fetchNASAData();
     setupEventMarkers();
+    setupTimelineSlider();
     createSolarSystem();
     createPlanets();
     createBigBangAnimation();
@@ -682,9 +676,6 @@ function onScroll() {
     
     if (solarSystem) {
         solarSystem.visible = era.time === 0;
-        if (era.time === 0) {
-            console.log('SOLAR VISIBLE', solarSystem.position, camera.position);
-        }
     }
 
     const vol = Math.max(0, 1 - scrollPercent);
@@ -705,26 +696,16 @@ function animate() {
 
     nebula.rotation.y += 0.0001;
 
-    stars.forEach((s) => {
-        s.rotation.y += 0.002;
-    });
-
-    galaxies.forEach((g) => {
-        g.rotation.z += 0.002;
-    });
-
-    planets.forEach((p) => {
-        if (!planetMode && p.visible) {
-            p.rotation.y += 0.01;
-        }
-    });
+    stars.forEach((s) => { s.rotation.y += 0.002; });
+    galaxies.forEach((g) => { g.rotation.z += 0.002; });
+    planets.forEach((p) => { if (!planetMode && p.visible) p.rotation.y += 0.01; });
 
     if (solarSystem && solarSystem.visible) {
         solarSystem.rotation.y += 0.003;
         solarSystem.children.forEach((child, i) => {
-            if (i > 0) {
+            if (i > 0 && child.userData.distance) {
                 const angle = t * (0.5 / i);
-                const dist = child.userData.distance || (80 + i * 50);
+                const dist = child.userData.distance;
                 child.position.x = Math.cos(angle) * dist;
                 child.position.z = Math.sin(angle) * dist;
                 child.rotation.y += 0.01;
@@ -737,5 +718,27 @@ function animate() {
 
     renderer.render(scene, camera);
 }
+
+function setupTimelineSlider() {
+    const slider = document.getElementById('timeline-slider');
+    if (!slider) return;
+
+    slider.addEventListener('input', () => {
+        sliderDragging = true;
+        const percent = slider.value / 100;
+        const targetScroll = percent * (document.body.scrollHeight - window.innerHeight);
+        window.scrollTo({ top: targetScroll });
+    });
+
+    slider.addEventListener('change', () => { sliderDragging = false; });
+
+    window.addEventListener('scroll', () => {
+        if (sliderDragging) return;
+        const percent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        slider.value = Math.min(percent * 100, 100);
+    });
+}
+
+
 
 init();

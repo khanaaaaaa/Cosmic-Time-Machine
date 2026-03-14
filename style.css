@@ -108,40 +108,11 @@ canvas {
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    display: none;
 }
 
-::-webkit-scrollbar-track {
-    background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-#nasa-panel {
-    position: fixed;
-    top: 40px;
-    right: 40px;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    padding: 20px 30px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    max-width: 320px;
-}
-
-#nasa-fact {
-    font-size: 12px;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.5;
+body {
+    scrollbar-width: none;
 }
 
 #event-markers {
@@ -171,12 +142,6 @@ canvas {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
 }
 
-.event-marker.active {
-    background: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    animation: pulse-marker 2s infinite;
-}
-
 .event-marker::after {
     content: attr(data-label);
     position: absolute;
@@ -195,13 +160,24 @@ canvas {
     opacity: 1;
 }
 
-@keyframes pulse-marker {
-    0%, 100% { 
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    }
-    50% { 
-        box-shadow: 0 0 30px rgba(255, 255, 255, 1);
-    }
+#nasa-panel {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    padding: 20px 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    max-width: 320px;
+}
+
+#nasa-fact {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
 }
 
 #planet-info {
@@ -238,7 +214,63 @@ canvas {
     font-style: italic;
 }
 
-@keyframes bigbang-flash {
+#timeline-slider-container {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.slider-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+    font-weight: 300;
+}
+
+#timeline-slider {
+    -webkit-appearance: none;
+    width: 300px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+#timeline-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    transition: box-shadow 0.2s;
+}
+
+#timeline-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.9);
+}
+
+#timeline-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
     0% { filter: brightness(10); }
     100% { filter: brightness(1); }
 }
