@@ -37,3 +37,8 @@ The solar system was by far the hardest part. I spent way too long trying to get
 
 - **Scroll** or **drag the slider** to travel through time
 - **Click the dots** on the right to jump to major events
+
+## AI Usage
+
+- Debugging & planets rotating from ChatGPT
+
