@@ -1,7 +1,6 @@
 function init() {
     initScene();
     addBackground();
-    initAudio();
     fetchNASAData();
     setupEventMarkers();
     setupTimelineSlider();
@@ -32,7 +31,8 @@ function animate() {
     stars.forEach(s => {
         s.userData.pulsePhase += s.userData.pulseSpeed * delta;
         const pulse = 0.7 + Math.sin(s.userData.pulsePhase) * 0.3;
-        s.material.opacity = s.userData.baseOpacity * pulse;
+        const mult = s.userData.opacityMult !== undefined ? s.userData.opacityMult : 1.0;
+        s.material.opacity = s.userData.baseOpacity * pulse * mult;
         s.material.size    = s.userData.baseSize * (0.85 + pulse * 0.15);
     });
 

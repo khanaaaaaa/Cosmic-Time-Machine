@@ -39,6 +39,132 @@ function setupTimelineSlider() {
     });
 }
 
+function applyEraVisuals(era) {
+    const t = era.time;
+
+    // ── Background clear color ──────────────────────────────────────────────
+    // Big Bang: blinding white. Quark/Hadron: hot plasma red. Nucleosynthesis: cooling orange.
+    // Inflation: dark blue expansion. First Light: faint CMB blue glow.
+    // Dark Ages: ABSOLUTE BLACK — no light exists. First Stars: tiny blue-white specks appear.
+    // Reionization: universe slowly brightens. Galaxies/Quasars: deep blue-purple.
+    // Galaxy Collisions: black (handled by collision animation).
+    // Present Day: deep space black-blue. Red Giant: orange-red sky. White Dwarf: cold blue.
+    // Degenerate/Black Hole/Heat Death: absolute black.
+    const bg =
+        t === -13.8    ? 0xffffff :  // Big Bang — white flash
+        t === -13.799  ? 0x4a0a00 :  // Quark Epoch — hot red plasma
+        t === -13.798  ? 0x200500 :  // Hadron Epoch — cooling red
+        t === -13.797  ? 0x0a0310 :  // Nucleosynthesis — dark purple cooling
+        t === -13.7    ? 0x000a1a :  // Inflation — dark blue expansion
+        t === -13.5    ? 0x080820 :  // First Light / CMB — faint blue glow
+        t === -13.2    ? 0x000000 :  // Dark Ages — ABSOLUTE BLACK
+        t === -13      ? 0x000308 :  // First Stars — near black, tiny lights
+        t === -12.5    ? 0x000510 :  // Reionization — slightly brighter
+        t === -12      ? 0x000410 :  // First Galaxies
+        t === -11      ? 0x080010 :  // Quasar Era — purple AGN glow
+        t === -10      ? 0x000000 :  // Galaxy Collisions — black bg, collision handles it
+        t === -9       ? 0x000308 :  // Cosmic Web
+        t === -8       ? 0x000510 :  // Peak Star Formation — blue tint, most stars ever
+        t === -6       ? 0x000308 :  // Milky Way Forms
+        t === -4.6     ? 0x000205 :  // Solar System Birth
+        t === -3.8     ? 0x080100 :  // Late Heavy Bombardment — warm reddish
+        t === -2       ? 0x000205 :  // Early Solar System
+        t === 0        ? 0x000005 :  // Present Day
+        t === 1        ? 0x050005 :  // Andromeda Collision — slight purple
+        t === 2        ? 0x030008 :  // Milkomeda — elliptical, no spiral arms
+        t === 5        ? 0x1a0300 :  // Red Giant — deep orange-red
+        t === 8        ? 0x00000f :  // White Dwarf — cold blue-black
+        t === 20       ? 0x000003 :  // Star Formation Slows — near black
+        t === 100      ? 0x000002 :  // Stelliferous Era Ends — almost black
+        t >= 1000      ? 0x000000 :  // Degenerate/Black Dwarf/Black Hole/Hawking/Heat Death — BLACK
+                         0x000005;
+
+    renderer.setClearColor(new THREE.Color(bg), 1);
+
+    // ── Fog ─────────────────────────────────────────────────────────────────
+    if (scene.fog) {
+        scene.fog.density =
+            t === -13.8   ? 0.003  :  // Big Bang — opaque
+            t <= -13.797  ? 0.002  :  // Early plasma epochs — very dense
+            t === -13.2   ? 0.005  :  // Dark Ages — maximum fog, nothing visible
+            t >= 1000     ? 0.001  :  // Late eras — sparse
+            t >= 100      ? 0.0005 :
+                            0.00015;
+    }
+
+    // ── Background star layers ───────────────────────────────────────────────
+    // Dark Ages: no background stars. Big Bang/early epochs: no stars.
+    // First Stars onward: show background stars. Late eras: fade them out.
+    const showBgStars = t >= -13 && t < 10000;
+    const bgOpacity =
+        t === -13      ? 0.1  :  // First Stars — barely visible
+        t === -12.5    ? 0.3  :  // Reionization — brightening
+        t >= -12       ? 1.0  :  // Normal universe
+        t >= 1000      ? 0.3  :
+        t >= 100       ? 0.6  :
+                         1.0;
+    bgLayers.forEach(l => {
+        l.visible = showBgStars;
+        if (showBgStars) l.material.opacity = l.userData.baseOpacity * bgOpacity;
+    });
+
+    // ── Dynamic stars (updateStars) ──────────────────────────────────────────
+    // Stars fade to black in late eras
+    const starOpacityMult =
+        t >= 10000  ? 0.0 :
+        t >= 1000   ? 0.3 :
+        t >= 100    ? 0.6 :
+                      1.0;
+    stars.forEach(s => {
+        s.userData.opacityMult = starOpacityMult;
+    });
+
+    // ── Galaxy collision ─────────────────────────────────────────────────────
+    const isCollision = t === -10;
+    collisionActive = isCollision;
+    collidingGalaxies.forEach(g => { g.visible = isCollision; });
+    galaxies.forEach(g => { g.visible = !isCollision; });
+    ['timeline-info', 'scroll-hint'].forEach(id => {
+        document.getElementById(id)?.classList.toggle('hidden', isCollision);
+    });
+
+    // ── Solar system ─────────────────────────────────────────────────────────
+    // Show from Solar System Birth (-4.6B) through White Dwarf (8B)
+    // After White Dwarf the sun is gone — solar system disappears
+    if (solarSystem) {
+        const showSolar = t >= -4.6 && t <= 8;
+        solarSystem.visible = showSolar;
+        if (showSolar) {
+            const sun = solarSystem.children[0];
+            if (sun) {
+                if (t === 5) {
+                    // Red Giant: Sun expands to 200x, turns red-orange
+                    sun.material.color.setHex(0xff2200);
+                    sun.scale.setScalar(4.5);
+                    // Hide inner planets — they're consumed
+                    solarSystem.children.forEach((child, i) => {
+                        if (child.userData.distance && child.userData.distance < 210) {
+                            child.visible = false;
+                        }
+                    });
+                } else if (t === 8) {
+                    // White Dwarf: tiny, blue-white, very hot
+                    sun.material.color.setHex(0xccddff);
+                    sun.scale.setScalar(0.2);
+                    solarSystem.children.forEach(child => { child.visible = true; });
+                } else {
+                    sun.material.color.setHex(0xfff4aa);
+                    sun.scale.setScalar(1);
+                    solarSystem.children.forEach(child => { child.visible = true; });
+                }
+            }
+        }
+    }
+
+    // ── Exoplanets ───────────────────────────────────────────────────────────
+    updatePlanetVisibility(t);
+}
+
 function onScroll() {
     if (planetMode) return;
     const sp = Math.min(window.scrollY / (document.body.scrollHeight - window.innerHeight), 1);
@@ -69,83 +195,7 @@ function onScroll() {
     targetStarCount   = era.starCount;
     targetGalaxyCount = era.galaxyCount;
 
-    const isCollision = era.time === -10;
-    collisionActive = isCollision;
-    collidingGalaxies.forEach(g => { g.visible = isCollision; });
-
-    ['timeline-info', 'audio-indicator', 'scroll-hint'].forEach(id => {
-        document.getElementById(id)?.classList.toggle('hidden', isCollision);
-    });
-
-    if (solarSystem) {
-        const showSolar = era.time >= -4.6 && era.time <= 8;
-        solarSystem.visible = showSolar;
-
-        if (showSolar) {
-            const sun = solarSystem.children[0];
-            if (sun) {
-                if (era.time === 5) {
-                    sun.material.color.setHex(0xff3300);
-                    sun.scale.setScalar(3.5);
-                } else if (era.time === 8) {
-                    sun.material.color.setHex(0xbbbbff);
-                    sun.scale.setScalar(0.3);
-                } else {
-                    sun.material.color.setHex(0xfff4aa);
-                    sun.scale.setScalar(1);
-                }
-            }
-        }
-    }
-
-    updatePlanetVisibility(era.time);
-    updateAudio(sp);
-
-    const bgColors = {
-        bigbang:    0x1a0000,
-        quark:      0x0d0005,
-        hadron:     0x050010,
-        nucleosynth:0x000510,
-        inflation:  0x000820,
-        firstlight: 0x050520,
-        darkages:   0x000000,
-        firststars: 0x000511,
-        reionize:   0x000a18,
-        galaxies:   0x000510,
-        quasar:     0x050010,
-        collision:  0x000000,
-        web:        0x000308,
-        peakstar:   0x000510,
-        milkyway:   0x000308,
-        solarbirth: 0x000205,
-        bombardment:0x050200,
-        earlysolar: 0x000205,
-        present:    0x000005,
-        andromeda:  0x050005,
-        milkomeda:  0x030008,
-        redgiant:   0x100200,
-        whitedwarf: 0x000010,
-        slowstar:   0x000005,
-        stellifend: 0x000003,
-        degenerate: 0x000002,
-        blackdwarf: 0x000001,
-        blackhole:  0x000000,
-        hawking:    0x000000,
-        lastbh:     0x000000,
-        heatdeath:  0x000000
-    };
-
-    const bgKeys = Object.keys(bgColors);
-    const bgKey  = bgKeys[Math.min(eraIndex, bgKeys.length - 1)];
-    renderer.setClearColor(new THREE.Color(bgColors[bgKey]), 1);
-
-    if (scene.fog) {
-        scene.fog.density = era.time <= -13.5 ? 0.001
-            : era.time <= -13   ? 0.0004
-            : era.time >= 1000  ? 0.0005
-            : era.time >= 100   ? 0.0003
-            : 0.00015;
-    }
+    applyEraVisuals(era);
 
     camera.position.set(0, 100 + sp * 50, 320 - sp * 120);
     camera.lookAt(0, 0, 0);

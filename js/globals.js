@@ -1,5 +1,4 @@
 let scene, camera, renderer, nebula;
-let audioContext, oscillator, gainNode;
 let stars = [], galaxies = [];
 let targetStarCount = 0, targetGalaxyCount = 0;
 let currentStarCount = 0, currentGalaxyCount = 0;

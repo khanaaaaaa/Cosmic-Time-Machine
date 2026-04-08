@@ -1,6 +1,8 @@
+let bgLayers = [];
+
 function initScene() {
     scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000005, 0.00015);
+    scene.fog = new THREE.FogExp2(0x000000, 0.00015);
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 5000);
     camera.position.set(0, 100, 320);
     camera.lookAt(0, 0, 0);
@@ -48,7 +50,10 @@ function addBackground() {
             opacity: layer.opacity, blending: THREE.AdditiveBlending, sizeAttenuation: true
         }));
         pts.userData.layer = li;
+        pts.userData.baseOpacity = layer.opacity;
+        pts.visible = false;
         scene.add(pts);
+        bgLayers.push(pts);
         if (li === 0) nebula = pts;
     });
 }

@@ -18,7 +18,9 @@ function createPlanets() {
 }
 
 function updatePlanetVisibility(currentTime) {
-    planets.forEach(p => { p.visible = currentTime >= p.userData.appearTime; });
+    planets.forEach(p => {
+        p.visible = currentTime >= p.userData.appearTime && currentTime <= 20;
+    });
 }
 
 function setupPlanetClick() {
