@@ -16,58 +16,55 @@ function init() {
 
 function animate() {
     requestAnimationFrame(animate);
-
-    const t = Date.now() * 0.0001;
+    const t     = Date.now() * 0.0001;
+    const delta = 0.016;
 
     updateStars();
     updateGalaxies();
 
-    // Nebula slow drift
-    if (nebula) {
-        nebula.rotation.y += 0.00008;
-        nebula.rotation.x += 0.00003;
-    }
-
-    // Star twinkling
-    stars.forEach(s => {
-        if (s.userData.pulsePhase !== undefined) {
-            s.userData.pulsePhase += s.userData.pulseSpeed * 0.016;
-            s.material.opacity = s.userData.baseOpacity * (0.7 + Math.sin(s.userData.pulsePhase) * 0.3);
+    scene.children.forEach(obj => {
+        if (obj.isPoints && obj.userData.layer !== undefined) {
+            obj.rotation.y += 0.00004 * (obj.userData.layer + 1);
+            obj.rotation.x += 0.00002 * (obj.userData.layer + 1);
         }
     });
 
-    // Galaxy slow spin
-    galaxies.forEach(g => { g.rotation.z += 0.0015; g.rotation.y += 0.0005; });
+    stars.forEach(s => {
+        s.userData.pulsePhase += s.userData.pulseSpeed * delta;
+        const pulse = 0.7 + Math.sin(s.userData.pulsePhase) * 0.3;
+        s.material.opacity = s.userData.baseOpacity * pulse;
+        s.material.size    = s.userData.baseSize * (0.85 + pulse * 0.15);
+    });
 
-    // Exoplanet rotation
-    planets.forEach(p => { if (!planetMode && p.visible) p.rotation.y += 0.008; });
+    galaxies.forEach((g, i) => {
+        g.rotation.z += 0.0008 + i * 0.0001;
+        g.rotation.y += 0.0003;
+    });
 
-    // Solar system orbital animation
+    planets.forEach(p => { if (!planetMode && p.visible) p.rotation.y += 0.006; });
+
     if (solarSystem?.visible) {
-        // Sun pulse
-        const sunGlows = solarSystem.children[0]?.children;
-        if (sunGlows) {
-            sunGlows.forEach((g, i) => {
-                g.material.opacity = [0.25, 0.12, 0.05][i] * (0.8 + Math.sin(t * 3 + i) * 0.2);
+        const sun = solarSystem.children[0];
+        if (sun?.children) {
+            sun.children.forEach((glow, i) => {
+                glow.material.opacity = [0.25, 0.12, 0.05][i] * (0.7 + Math.sin(t * 4 + i * 1.2) * 0.3);
+                const s = 1 + Math.sin(t * 2 + i) * 0.02;
+                glow.scale.set(s, s, s);
             });
         }
-
-        // Planet orbits - skip index 0 (sun) and odd indices (orbital rings)
         solarSystem.children.forEach((child, i) => {
-            if (i === 0) return; // sun
-            if (!child.userData.distance) return; // orbital ring
-            const speed = child.userData.orbitSpeed || (0.4 / i);
+            if (i === 0 || !child.userData.distance) return;
+            const speed = child.userData.orbitSpeed || (0.35 / i);
             const angle = t * speed * 10;
             const d = child.userData.distance;
             child.position.x = Math.cos(angle) * d;
             child.position.z = Math.sin(angle) * d;
-            child.rotation.y += 0.008;
+            child.rotation.y += 0.006;
         });
     }
 
-    updateBigBang(0.016);
+    updateBigBang(delta);
     updateCollision();
-
     renderer.render(scene, camera);
 }
 

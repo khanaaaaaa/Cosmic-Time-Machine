@@ -15,10 +15,13 @@
 
         <div id="event-markers">
             <div class="event-marker" data-label="Big Bang" data-scroll="0"></div>
-            <div class="event-marker" data-label="First Stars" data-scroll="0.2"></div>
-            <div class="event-marker" data-label="Milky Way" data-scroll="0.45"></div>
+            <div class="event-marker" data-label="First Stars" data-scroll="0.233"></div>
+            <div class="event-marker" data-label="First Galaxies" data-scroll="0.3"></div>
+            <div class="event-marker" data-label="Milky Way" data-scroll="0.466"></div>
             <div class="event-marker" data-label="Solar System" data-scroll="0.5"></div>
-            <div class="event-marker" data-label="Present" data-scroll="0.6"></div>
+            <div class="event-marker" data-label="Present Day" data-scroll="0.6"></div>
+            <div class="event-marker" data-label="Red Giant Sun" data-scroll="0.7"></div>
+            <div class="event-marker" data-label="Black Hole Era" data-scroll="0.9"></div>
             <div class="event-marker" data-label="Heat Death" data-scroll="1"></div>
         </div>
 
@@ -40,20 +43,23 @@
 
         <div id="timeline-slider-container">
             <span class="slider-label">Big Bang</span>
-            <input type="range" id="timeline-slider" min="0" max="100" value="0" step="0.1">
+            <div id="slider-wrapper">
+                <input type="range" id="timeline-slider" min="0" max="100" value="0" step="0.1">
+                <span id="slider-current-label">The Big Bang</span>
+            </div>
             <span class="slider-label">Heat Death</span>
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <script src="globals.js"></script>
-        <script src="scene.js"></script>
-        <script src="audio.js"></script>
-        <script src="bigbang.js"></script>
-        <script src="galaxies.js"></script>
-        <script src="stars.js"></script>
-        <script src="solar-system.js"></script>
-        <script src="planets.js"></script>
-        <script src="timeline.js"></script>
-        <script src="main.js"></script>
+        <script src="js/globals.js"></script>
+        <script src="js/scene.js"></script>
+        <script src="js/audio.js"></script>
+        <script src="js/bigbang.js"></script>
+        <script src="js/galaxies.js"></script>
+        <script src="js/stars.js"></script>
+        <script src="js/solar-system.js"></script>
+        <script src="js/planets.js"></script>
+        <script src="js/timeline.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
